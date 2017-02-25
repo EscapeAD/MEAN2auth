@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
 username: String;
 password: String;
 
-  constructor(private AuthService: AuthService, private router: Router, private flashMessages: FlashMessagesService) { }
+  constructor(private authService: AuthService, private router: Router, private flashMessages: FlashMessagesService) { }
 
   ngOnInit() {
   }
@@ -22,9 +22,16 @@ password: String;
       username: this.username,
       password: this.password
     }
-    console.log('Hi I can Login/submit information');
-    this.AuthService.authenicateUser(user).subscribe(data =>{
-      console.log(data);
+
+    this.authService.authenicateUser(user).subscribe(data =>{
+      if(data.success){
+        this.authService.storeUserData(data.token, data.user);
+        this.flashMessages.show('You are now Logged In', { cssClass: 'alert-danger'})
+        this.router.navigate(['dashboard'])
+      } else {
+        this.flashMessages.show(data.msg, { cssClass: 'alert-danger', timeout: 5000})
+        this.router.navigate(['login'])
+      }
     })
   }
 
