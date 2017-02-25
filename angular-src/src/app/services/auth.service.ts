@@ -15,4 +15,10 @@ user: any;
     return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
                     .map(res => res.json())
   }
+  authenicateUser(user){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
+                    .map(res => res.json())
+  }
 }
