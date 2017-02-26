@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { tokenNotExpired } from 'angular2-jwt';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -35,7 +36,6 @@ user: any;
     this.authToken = token;
     this.user      = user;
   }
-
   logout(){
     this.authToken = null;
     this.user      = null;
@@ -44,5 +44,8 @@ user: any;
   loadToken(){
     const token = localStorage.getItem('id_token')
     this.authToken = token;
+  }
+  loggedIn(){
+    return tokenNotExpired();
   }
 }
